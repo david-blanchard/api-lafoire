@@ -45,7 +45,7 @@ abstract class Product
     /**
      * @var Collection<int, CampaignProduct> $campaignProducts
      */
-    #[ORM\ManyToMany(targetEntity: CampaignProduct::class, mappedBy: 'product', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToMany(targetEntity: CampaignProduct::class, mappedBy: 'products', cascade: ['persist', 'remove'])]
     protected Collection $campaignProducts;
 
     /**
