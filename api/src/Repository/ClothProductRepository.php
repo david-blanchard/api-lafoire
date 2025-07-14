@@ -44,10 +44,13 @@ class ClothProductRepository extends ServiceEntityRepository
      */
     public function findBySlug(string $slug): array
     {
+        /**
+         * @var array<ClothProduct>
+         */
         return $this->em->createQueryBuilder()
             ->from(ClothProduct::class, 'p')
             ->Where('p.slug LIKE :slugLike')
-            ->setParameter('slugLike', '%' . $slug . '%')
+            ->setParameter('slugLike', '%'.$slug.'%')
             ->select('p')
             ->getQuery()
             ->getResult();
@@ -85,6 +88,9 @@ class ClothProductRepository extends ServiceEntityRepository
      */
     public function getPropertiesFromCacheById(int $productId): ?array
     {
+        /**
+         * @var array<mixed>|null
+         */
         return $this->cache->get("product$productId");
     }
 

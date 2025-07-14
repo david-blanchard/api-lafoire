@@ -11,6 +11,8 @@ use App\Repository\CampaignProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 #[ApiResource(
     mercure: true,
@@ -38,10 +40,10 @@ abstract class CampaignProduct
 
     #[ORM\ManyToOne(targetEntity: Campaign::class, inversedBy: 'campaignProducts')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private ?Campaign $campaign;
+    protected ?Campaign $campaign;
 
     /**
-     * @var Collection<int, Product>
+     * @var Collection<int, ProductInterface|null>
      */
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'campaignProducts')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -69,14 +71,14 @@ abstract class CampaignProduct
     //    public abstract function setProduct(ProductInterface|null $product): self;
 
     /**
-     * @return Collection<int, Product>
+     * @return Collection<int, ProductInterface|null>
      */
     public function getProducts(): Collection
     {
         return $this->products;
     }
 
-    public function addProduct(Product $product): static
+    public function addProduct(ProductInterface|null $product): static
     {
         if (!$this->products->contains($product)) {
             $this->products->add($product);
@@ -85,7 +87,7 @@ abstract class CampaignProduct
         return $this;
     }
 
-    public function removeProduct(Product $product): static
+    public function removeProduct(ProductInterface|null $product): static
     {
         $this->products->removeElement($product);
 

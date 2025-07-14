@@ -32,6 +32,9 @@ class ClothProductImageRepository extends ServiceEntityRepository
             ->setParameter('productId', $productId)
             ->select('i');
 
+        /**
+         * @var array<Image>
+         */
         return $qb->getQuery()->getResult();
     }
 }

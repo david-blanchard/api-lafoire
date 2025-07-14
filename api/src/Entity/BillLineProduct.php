@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\BillLine\ClothProductBillLine;
 use App\Entity\BillLine\FoodProductBillLine;
 use App\Entity\BillLine\HomeProductBillLine;
@@ -9,7 +10,6 @@ use App\Entity\Traits\Classifier;
 use App\Entity\Traits\Identifier;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]

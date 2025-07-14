@@ -50,10 +50,13 @@ class FoodProductRepository extends ServiceEntityRepository
      */
     public function findBySlug(string $slug): array
     {
+        /**
+         * @var array<FoodProduct>
+         */
         return $this->em->createQueryBuilder()
             ->from(FoodProduct::class, 'p')
             ->Where('p.slug LIKE :slugLike')
-            ->setParameter('slugLike', '%' . $slug . '%')
+            ->setParameter('slugLike', '%'.$slug.'%')
             ->select('p')
             ->getQuery()
             ->getResult();

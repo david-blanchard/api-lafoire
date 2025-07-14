@@ -2,11 +2,11 @@
 
 namespace App\Entity\Image;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Product\HomeProduct;
 use App\Entity\ProductImage;
 use App\Repository\ClothProductImageRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: ClothProductImageRepository::class)]
@@ -20,12 +20,12 @@ class HomeProductImage extends ProductImage
         $this->image_type = HomeProduct::class;
     }
 
-    public function getProduct(): HomeProduct|null|\App\Entity\Product
+    public function getProduct(): HomeProduct|\App\Entity\Product|null
     {
         return $this->product;
     }
 
-    public function setProduct(HomeProduct|null|\App\Entity\Product $product): static
+    public function setProduct(HomeProduct|\App\Entity\Product|null $product): static
     {
         $this->product = $product;
 

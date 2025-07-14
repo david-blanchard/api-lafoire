@@ -2,11 +2,11 @@
 
 namespace App\Entity\BillLine;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\BillLineProduct;
 use App\Entity\Product\ClothProduct;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]

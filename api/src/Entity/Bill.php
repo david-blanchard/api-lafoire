@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Traits\Identifier;
 use App\Repository\BillRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: BillRepository::class)]

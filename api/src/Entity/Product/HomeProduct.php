@@ -2,14 +2,13 @@
 
 namespace App\Entity\Product;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Campaign;
 use App\Entity\Image;
 use App\Entity\Product;
-use App\Entity\ProductImage;
 use App\Entity\ProductInterface;
 use App\Repository\HomeProductRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: HomeProductRepository::class)]
@@ -59,5 +58,4 @@ class HomeProduct extends Product implements ProductInterface
 
         return $this;
     }
-
 }

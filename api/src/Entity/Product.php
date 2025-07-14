@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Product\ClothProduct;
 use App\Entity\Product\FoodProduct;
 use App\Entity\Product\HomeProduct;
@@ -11,7 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity()]
@@ -23,7 +23,7 @@ use ApiPlatform\Metadata\ApiResource;
     'food' => FoodProduct::class,
     'home' => HomeProduct::class,
 ])]
-abstract class Product
+abstract class Product implements ProductInterface
 {
     use Identifier;
     use Classifier;
@@ -116,7 +116,7 @@ abstract class Product
         return $this->campaignProducts;
     }
 
-//    abstract public function addCampaignProduct(CampaignProduct $campaignProduct): self;
+    //    abstract public function addCampaignProduct(CampaignProduct $campaignProduct): self;
 
     public function removeCampaignProduct(CampaignProduct $campaignProduct): self
     {

@@ -76,6 +76,9 @@ class CartService extends AbstractSessionObject implements CartServiceInterface
             $result = self::toArray($result);
         }
 
+        /**
+         * @var array<string, mixed> $result
+         */
         return $result;
     }
 

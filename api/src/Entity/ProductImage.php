@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Image\ClothProductImage;
 use App\Entity\Image\FoodProductImage;
 use App\Entity\Image\HomeProductImage;
@@ -9,7 +10,6 @@ use App\Entity\Traits\Identifier;
 use App\Repository\ProductImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: ProductImageRepository::class)]
@@ -34,7 +34,6 @@ class ProductImage
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?Product $product = null;
 
-
     public function getImage(): ?Image
     {
         return $this->image;
@@ -58,5 +57,4 @@ class ProductImage
 
         return $this;
     }
-
 }

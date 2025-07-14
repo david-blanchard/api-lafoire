@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Image\ClothProductImage;
 use App\Entity\Product\ClothProduct;
 use App\Entity\Traits\Identifier;
@@ -10,7 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -91,7 +91,6 @@ class Image
         $productImage = new ClothProductImage();
         $productImage->setImage($this);
         $productImage->setProduct($product);
-        $productImage->setRelation($product->getCategoryName());
 
         $this->addProductImage($productImage);
 
@@ -103,7 +102,6 @@ class Image
         $productImage = new ClothProductImage();
         $productImage->setImage($this);
         $productImage->setProduct($product);
-        $productImage->setRelation($product->getCategoryName());
 
         $this->removeProductImage($productImage);
 

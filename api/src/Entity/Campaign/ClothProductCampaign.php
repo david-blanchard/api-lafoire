@@ -2,14 +2,14 @@
 
 namespace App\Entity\Campaign;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Campaign;
 use App\Entity\CampaignProduct;
-use App\Entity\Product;
 use App\Entity\Product\ClothProduct;
+use App\Entity\ProductInterface;
 use App\Repository\ClothProductCampaignRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(mercure: true)]
@@ -19,19 +19,15 @@ class ClothProductCampaign extends CampaignProduct
 {
     public readonly string $campaign_type;
 
-    #[ORM\ManyToOne(targetEntity: Campaign::class, inversedBy: 'campaignProducts')]
-    #[ORM\JoinColumn(name: 'campaign', referencedColumnName: 'id')]
-    protected Campaign $campaign;
-
     public function __construct()
     {
         parent::__construct();
-        $this->campaign_type = ClothProduct::class;
+        $this->campaign_type = ClothProductCampaign::class;
     }
 
     // Additional methods specific to ClothProductCampaign can be added here
-    #[Groups('campaign_product.read', 'campaign_product.write')]
-    public function setProduct(Product|ClothProduct|null $product): self
+    #[Groups(['campaign_product.read', 'campaign_product.write'])]
+    public function setProduct(ProductInterface|null $product): self
     {
         if ($product) {
             $this->products->add($product);
@@ -41,11 +37,10 @@ class ClothProductCampaign extends CampaignProduct
     }
 
     /**
-     * @return Collection<int, ClothProduct>
+     * @return Collection<int, ProductInterface|null>
      */
     public function getProducts(): Collection
     {
         return $this->products;
     }
-
 }
