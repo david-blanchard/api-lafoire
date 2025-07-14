@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\Campaign\ClothProductCampaign;
 use App\Entity\Campaign\FoodProductCampaign;
 use App\Entity\Campaign\HomeProductCampaign;
@@ -10,22 +11,18 @@ use App\Repository\CampaignProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
-use Symfony\Component\Serializer\Attribute\Group;
 
-#[ApiResource(mercure: true)]
-#[ORM\Entity(repositoryClass: CampaignProductsRepository::class)]
-#[ORM\Table(name: 'campaign_products')]
-#[Groups(
-    name: 'campaign_product',
-    description: 'Campaign Product',
+#[ApiResource(
+    mercure: true,
     normalizationContext: [
-        'groups' => ['campaign_product.read', 'campaign.read', 'product.read']
+        'groups' => ['campaign_product.read', 'campaign.read', 'product.read'],
     ],
     denormalizationContext: [
-        'groups' => ['campaign_product.write', 'campaign.write', 'product.write']
+        'groups' => ['campaign_product.write', 'campaign.write', 'product.write'],
     ]
 )]
+#[ORM\Entity(repositoryClass: CampaignProductsRepository::class)]
+#[ORM\Table(name: 'campaign_products')]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\MappedSuperclass]
 #[ORM\InheritanceType('JOINED')]
@@ -48,6 +45,8 @@ abstract class CampaignProduct
      */
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'campaignProducts')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[Groups(['campaign_product.read', 'campaign.read', 'product.read'])]
+    #[MaxDepth(1)]
     protected Collection $products;
 
     public function __construct()
@@ -92,5 +91,4 @@ abstract class CampaignProduct
 
         return $this;
     }
-
 }
