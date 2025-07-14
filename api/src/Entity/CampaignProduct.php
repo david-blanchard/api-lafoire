@@ -17,10 +17,10 @@ use Symfony\Component\Serializer\Attribute\MaxDepth;
 #[ApiResource(
     mercure: true,
     normalizationContext: [
-        'groups' => ['campaign_product.read', 'campaign.read', 'product.read'],
+        'groups' => ['campaign_product.read', 'product.read', 'campaign.read'],
     ],
     denormalizationContext: [
-        'groups' => ['campaign_product.write', 'campaign.write', 'product.write'],
+        'groups' => ['campaign_product.write'],
     ]
 )]
 #[ORM\Entity(repositoryClass: CampaignProductsRepository::class)]
@@ -40,6 +40,11 @@ abstract class CampaignProduct
 
     #[ORM\ManyToOne(targetEntity: Campaign::class, inversedBy: 'campaignProducts')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[Groups([
+        'campaign_product.read',
+        'campaign_product.write',
+        'campaign.read',
+    ])]
     protected ?Campaign $campaign;
 
     /**
@@ -47,8 +52,11 @@ abstract class CampaignProduct
      */
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'campaignProducts')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Groups(['campaign_product.read', 'campaign.read', 'product.read'])]
-    #[MaxDepth(1)]
+    #[Groups([
+        'campaign_product.read',
+        'campaign_product.write',
+        'product.read',
+    ])]
     protected Collection $products;
 
     public function __construct()

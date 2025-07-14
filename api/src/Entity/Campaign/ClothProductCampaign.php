@@ -10,9 +10,8 @@ use App\Entity\ProductInterface;
 use App\Repository\ClothProductCampaignRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ApiResource(mercure: true)]
+#[ApiResource]
 #[ORM\Entity(repositoryClass: ClothProductCampaignRepository::class)]
 #[ORM\Table(name: 'cloth_campaign_product')]
 class ClothProductCampaign extends CampaignProduct
@@ -26,7 +25,6 @@ class ClothProductCampaign extends CampaignProduct
     }
 
     // Additional methods specific to ClothProductCampaign can be added here
-    #[Groups(['campaign_product.read', 'campaign_product.write'])]
     public function setProduct(ProductInterface|null $product): self
     {
         if ($product) {

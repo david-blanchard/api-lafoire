@@ -11,8 +11,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ApiResource(mercure: true)]
+#[ApiResource(
+    mercure: true,
+    normalizationContext: [
+        'groups' => ['image.read'],
+    ],
+    denormalizationContext: [
+        'groups' => ['image.write'],
+    ]
+)]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ORM\Table(name: 'images')]
 class Image
@@ -21,12 +30,15 @@ class Image
     use TimestampableEntity;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['image.read', 'image.write'])]
     private string $url;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['image.read', 'image.write'])]
     private string $alt;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['image.read', 'image.write'])]
     private string $title;
 
     /**

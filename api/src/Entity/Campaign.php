@@ -10,8 +10,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
-#[ApiResource(mercure: true)]
+#[ApiResource(
+    mercure: true,
+    normalizationContext: [
+        'enable_max_depth' => true,
+        'groups' => ['campaign.read'],
+    ],
+    denormalizationContext: [
+        'groups' => ['campaign.write'],
+    ]
+)]
 #[ORM\Entity(repositoryClass: CampaignRepository::class)]
 #[ORM\Table(name: 'campaigns')]
 class Campaign
@@ -20,13 +31,20 @@ class Campaign
     use Classifier;
     use TimestampableEntity;
 
+    #[ORM\Column(length: 255)]
+    #[Groups(['campaign.read', 'campaign.write'])]
+    protected ?string $name = null;
+
     #[ORM\Column(type: 'date_immutable')]
+    #[Groups(['campaign.read', 'campaign.write'])]
     private \DateTimeImmutable $startsAt;
 
     #[ORM\Column(type: 'date_immutable')]
+    #[Groups(['campaign.read', 'campaign.write'])]
     private \DateTimeImmutable $endsAt;
 
     #[ORM\Column(type: 'smallint')]
+    #[Groups(['campaign.read', 'campaign.write'])]
     private int $discount;
 
     /**

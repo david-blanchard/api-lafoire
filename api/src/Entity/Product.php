@@ -12,8 +12,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ApiResource(mercure: true)]
+#[ApiResource(
+    mercure: true,
+    normalizationContext: [
+        'groups' => ['product.read'],
+    ],
+    denormalizationContext: [
+        'groups' => ['product.write'],
+    ]
+)]
 #[ORM\Entity()]
 #[ORM\Table(name: 'products')]
 #[ORM\InheritanceType('JOINED')]
@@ -29,29 +38,39 @@ abstract class Product implements ProductInterface
     use Classifier;
     use TimestampableEntity;
 
+    #[ORM\Column(length: 255)]
+    #[Groups(['product.read', 'product.write'])]
+    protected ?string $name = null;
+
     #[ORM\Column(length: 1024)]
+    #[Groups(['product.read', 'product.write'])]
     protected string $description;
 
     #[ORM\Column(length: 1024, nullable: true)]
+    #[Groups(['product.read', 'product.write'])]
     protected ?string $moreInfo = null;
 
     #[ORM\Column(type: 'float')]
+    #[Groups(['product.read', 'product.write'])]
     protected float $price;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['product.read', 'product.write'])]
     protected ?Brand $brand;
 
     /**
      * @var Collection<int, CampaignProduct> $campaignProducts
      */
     #[ORM\ManyToMany(targetEntity: CampaignProduct::class, mappedBy: 'products', cascade: ['persist', 'remove'])]
+    #[Groups(['product.write'])]
     protected Collection $campaignProducts;
 
     /**
      * @var Collection<int, ProductImage> $productImages
      */
     #[ORM\OneToMany(targetEntity: ProductImage::class, mappedBy: 'product', cascade: ['persist', 'remove'])]
+    #[Groups(['product.write'])]
     protected Collection $productImages;
 
     public function __construct()
